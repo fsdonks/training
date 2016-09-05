@@ -1,6 +1,7 @@
 ;;A simple exposition of how to express
 ;;things in clojure.
-(ns training.expression)
+(ns training.expression
+  (:use 'clojure.repl))
 ;;We'll approach clojure from the view of
 ;;linguistics, rather than other approaches.
 ;;While there will be plenty of discourses
@@ -376,6 +377,74 @@ x
 ;;2
 
 ;;user>
+;;Let the REPL help you via =doc= and =source=
+;;============================================
+;;Before we proceed, you should know how to
+;;ask the REPL for help.  The preponderance of
+;;things in clojure - particularly things
+;;that are built-in or pre-defined - have
+;;some documentation associated with them.
+;;This documentation, and many times even
+;;the source code, is available via the
+;;REPL using the =doc= function.
+
+;;Using =doc= and =source= will turn the
+;;REPL into an interactive library that
+;;allows you to look up information on
+;;unfamiliar symbols you may encounter.
+
+;;=doc= is provided in the clojure.repl
+;;namespace, which has already beeen
+;;referenced for you.  If you ever
+;;find that the =doc= function
+;;doesnt' work, tell the REPL
+(use 'clojure.repl)
+;;to bring it into scope.
+
+
+;;For instance, we can look up the
+;;documentation on doc:
+(doc doc) 
+;; -------------------------
+;; clojure.repl/doc
+;; ([name])
+;; Macro
+;;   Prints documentation for a var or special form given its name
+;; nil
+
+;;and def...
+(doc def)
+;; -------------------------
+;; def
+;;   (def symbol doc-string? init?)
+;; Special Form
+;;   Creates and interns a global var with the name
+;;   of symbol in the current namespace (*ns*) or locates such a var if
+;;   it already exists.  If init is supplied, it is evaluated, and the
+;;   root binding of the var is set to the resulting value.  If init is
+;;   not supplied, the root binding of the var is unaffected.
+
+;;   Please see http://clojure.org/special_forms#def
+;; nil
+
+;;The aforementioned mathematical operators are
+;;also documented:
+(doc +)
+;; -------------------------
+;; clojure.core/+
+;; ([] [x] [x y] [x y & more])
+;;   Returns the sum of nums. (+) returns 0. Does not auto-promote
+;;   longs, will throw on overflow. See also: +'
+;; nil
+
+;;As you progress through this tutorial, use =doc= liberally
+;;when you see something unfamiliar.  Chances are, there will
+;;be an immediate explanation of it in the REPL.  If you want to
+;;go further, you can use (=source= the-thing) to view the source
+;;code, if available.  This is an excellent way to learn more
+;;clojure.
+
+
 ;;Vars
 ;;====
 ;;Specifically, the symbol x has meaning in the
@@ -592,7 +661,165 @@ v2
 ;; ([x])
 ;;   Add 2 to any number!
 
+;;Conditional Conrol, =if=, =cond=, =case=
+;;========================================
+;;Sometimes we want to compute different
+;;results based on some condition.
+;;Typically, conditions will be functions
+;;that take a single input and return
+;;true or false (or nil).  These
+;;logical predicate functions are
+;;typically implemented using the =if=
+;;form.
 
+;;To help us out, we'll use the function
+;;(println ...) to tell the REPL to print output...
+(println
+ (if true "it was true" "it was false"))
+(println
+ (if false "it was true" "it was false"))
+(println
+ (if nil  "it was true" "it was false"))
+
+;;We can define a fucntion that determines if
+;;a number lies between an upper and a lower bound:
+(defn between? [x lower upper]
+  (if (and (> x lower)
+           (< x upper))
+        true
+        false))
+
+;;Clojure has equality operators builtin, so
+;;you also get <= , >=, = , and more.
+
+;;We can equivalently define between? without
+;;using if....since and will return true or
+;;false...it's already a predicate.
+(defn between? [lower upper x]
+  (and (> x lower)
+       (< x upper)))
+
+;;=if= does not evaluate anything it doesn't have to,
+;;we never get to the false branch:
+(if (between? 0 20 10)
+    (println "all-clear!")
+    (println "launch the missles!"))
+
+;;If we have nested conditions, it's
+;;easier to use =cond=
+(cond (between? 20 40 10) :a
+      (between? 40 42 10) :b
+      (= 10 10)      :ten
+      :else (println "launch the missiles!"))
+
+;;=case= is useful if we have a specific value
+(case 42
+  0  :zero
+  10 :ten
+  42 :forty-two
+  :dunno)
+
+;;Iteration via =loop=/=recur=
+;;============================
+;;Looping isn't incredibly common in clojure,
+;;we'll see later that we can accomplish much of
+;;what looping is typically used for via more expressive
+;;functions.  Still, the ability to tell the REPL
+;;to repeatedly evaluate an expression is fundamental
+;;to computing things.
+
+;;Clojure provides us with the loop/recur idiom.
+;;Inside of a (loop [& bindings] & body) form, we can re-enter
+;;the loop - loop again - using the (recur & bindings) form.
+
+;;Count to ten...
+(loop [idx 0]
+  (if (= idx 10) [:done idx]
+      (recur (+ idx 1))))
+
+;;We can replace (+ idx 1) with the more idiomatic
+;;(inc x) 
+(loop [idx 0]
+  (if (= idx 10) [:done idx]
+      (recur (inc idx))))
+
+;;=do= things
+;;===========
+;;The =do= form allows us to
+;;evaluate a sequence of forms, and ignores the
+;;intermediate results, returning only
+;;the last result.  =do= is useful for
+;;performing "side effects" like printing. 
+
+(defn spooky-add-2 [x]
+  (do (println "action")
+      (println "at a distance")
+      (println "is")
+      (println "spooky")
+      (+ x 2)))
+
+;;We can approximate do using =let=:
+(defn spooky-add-4 [x]
+  (let [_ (println "action")
+        _ (println "at a distance")
+        _ (println "is")
+        _ (println "spooky")]
+    (+ x 4)))
+
+;;In the preceding case, we told the REPL we don't care
+;;about the var being bound, to basically ignore it.
+;;We communicated this using the _ underscore as the var name.
+
+;;Simple Input/Output Via =read= 
+;;==============================
+;;Clojure provides full access to the same functionality that
+;;the REPL uses to read input and coerce it into clojure expressions.
+;;=read= lets us collect a line of input from the user:
+(read)
+
+
+;;Practical Exercise: Guess the Number
+;;====================================
+;;We now know enough to express a fairly
+;;simple program.  Our program will tell the
+;;user to pick a random number between 0 and
+;;100, then search for the user's number.
+
+(defn read-yes-no
+  "Given a simple prompt, msg, will prompt the user 
+   to enter input of y or n.  Will parse the result 
+   into a keyword :yes or :no, or throw on exception
+   on bad input."
+  [msg]
+  (println (str msg ", answer y|n"))
+  (case  (keyword (read))
+    :y :yes
+    :n :no
+    (throw (Exception.  (str "bad-input!")))))              
+
+(defn pick-number
+  "Given a lower and upper bound, repeatedly tries to 
+   guess the number using binary search.  Recursively 
+   calls itself, polling the user for correctness 
+   each time, and letting the user's feedback guide 
+   the binary search."
+  [lower upper]
+  (let [distance (quot (- upper lower)  2) 
+        guess    (+ lower distance)]
+    (case (read-yes-no  (str "is your number " guess " ?"))
+      :yes  (println "Thanks for playing!")
+      :no   (case (read-yes-no (str "Is your number less than? " guess))
+              :yes  (pick-number lower (dec guess))
+              (pick-number  (inc guess) upper)))))
+
+(defn play!
+  "Plays a single game of pick-the-number.  User should 
+   select a number from 0 to 100"
+  [] (pick-number 0 100))
+                                  
+            
+      
+ 
 
 
 
