@@ -797,7 +797,8 @@ v2
     :n :no
     (throw (Exception.  (str "bad-input!")))))              
 
-(defn pick-number
+
+(defn pick-number-recursive
   "Given a lower and upper bound, repeatedly tries to 
    guess the number using binary search.  Recursively 
    calls itself, polling the user for correctness 
@@ -812,10 +813,28 @@ v2
               :yes  (pick-number lower (dec guess))
               (pick-number  (inc guess) upper)))))
 
+(defn pick-number-iterative
+  "Given a lower and upper bound, repeatedly tries to 
+   guess the number using binary search.  Loops, 
+   polling the user for correctness each time, 
+   and letting the user's feedback guide the binary 
+   search.  This version uses loop/recur"
+  [lower-init upper-init]
+  (loop [lower lower-init
+         upper upper-init]
+    (let [distance (quot (- upper lower)  2) 
+          guess    (+ lower distance)]
+      (case (read-yes-no  (str "is your number " guess " ?"))
+        :yes  (println "Thanks for playing!")
+        :no   (case (read-yes-no (str "Is your number less than? " guess))
+                :yes  (recur lower (dec guess))
+                (recur  (inc guess) upper))))))
+
+
 (defn play!
   "Plays a single game of pick-the-number.  User should 
    select a number from 0 to 100"
-  [] (pick-number 0 100))
+  [] (pick-number-recursive 0 100))
                                   
             
       
