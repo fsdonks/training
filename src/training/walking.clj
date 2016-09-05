@@ -3,7 +3,8 @@
 ;;plethora of built-in data structures and
 ;;libraries for working with them.
 (ns training.walking)
-** Sequences
+;;Sequences
+;;=========
 ;;Almost every clojure datastructure that serves as a
 ;;collection can be viewed through the Sequence abstraction.
 
@@ -119,7 +120,6 @@
             (if (> (rand) 0.5)
               (conj acc x)
               acc)) [] xs))
-
 ** Useful built-ins
 ** Practical Example: FizzBuzz
 ** Practical Example: Simple statistics

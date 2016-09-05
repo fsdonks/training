@@ -451,11 +451,11 @@ x
 ;;current context.  The current context includes
 ;;a place to hold defined symbols like =x=, called
 ;;a =namespace=.  So, in the current namespace,
-;;=training.expression=, the REPL can now resolve
+;;=training.crawling=, the REPL can now resolve
 ;;the meaning of =x=.  In Clojure parlance, we say
 ;;that =x= is "bound" to the value 2.  This binding
 ;;implies that =x= is a Var, or defined symbol,
-;;which resides in the training.expression namespace.
+;;which resides in the training.crawling namespace.
 
 ;;From this point forward, when we evaluate bound symbols,
 ;;that is Vars, the resulting evaluationg will be the
@@ -469,7 +469,7 @@ x
 ;;We can refer to specific vars using the
 ;;long-form prefixing the namespace and a forward-slash
 ;;to the var: 
-training.expression/person
+training.crawling/person
 ;;evaluates to "Tom" 
 
 ;;Clojure has a pred-defined var called =list=
@@ -876,7 +876,7 @@ v2
 (eval (list 'list 2 3 4 ''x))
 ;;(2 3 4 x)
 (eval (list 'def 'x 2))
-;;#'training.expression/x
+;;#'training.crawling/x
 x
 ;;2
 
@@ -954,7 +954,9 @@ x
    select a number from 0 to 100"
   [] (pick-number-recursive 0 100))
                                   
-            
+;;Practical Example: Turtles
+;;Open open the file in training/turtles/example
+;;and follow along....
       
  
 
