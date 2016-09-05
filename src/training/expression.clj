@@ -523,6 +523,79 @@ v2
     state))
 ;;"Virginia"
 
+;;Function Definitions With =fn=
+;;==============================
+;;With =let= in hand, and the notion of lexically-scoped
+;;or locally-meaningful var bindings, we can define
+;;functions.  In clojure, functions are incredibly important
+;;and useful.  They allow us to define ways to transform
+;;inputs, compute things, and generally get stuff done.
+;;As with mathematical functions, Clojure functions take
+;;arguments as input and return a result.  
+
+;;The (fn [& bindings] body) form, evaluated by itself, takes a vector of bindings -
+;;just like =let=, and treats these bindings as arguments to the
+;;function.  Like let, the body of the function is evaluated -
+;;at some point - with the bindings in place.  The trick is
+;;that the bindings are established when the function is
+;;=invoked=, that is when the function is =applied= to
+;;arguments as part of a clojure =form=.  The result is a
+;;function object that may be evaluated as the first
+;;element of a form, and applied against arguments.
+
+;;Most clojure functions follow the notion of purity - that is:
+;;- the function always returns the same output for a given input
+;;- the function depends only on its arguments, and nothing else
+;;Functions that follow these properties are useful because they
+;;are easy to understand and reason about.  Let's define a function
+;;that adds 42 to its input.
+(fn [x] (+ x 42))
+;;#object[user$eval7721$fn__7722 0x7152a114 "user$eval7721$fn__7722@7152a114"]
+;;The REPL gives us back a wierd result if we send it a (fn ....)
+;;form, but it looks like some kind of data with garbage in the name.
+;;This is clojure's way of telling us that we have gotten back an
+;;object, in this case, the function we defined.
+
+;;We should be able to use this object as the first element of a
+;;form, with any arguments as remaining elements.
+((fn [x] (+ x 42)) 2)
+;;44
+;;We have no way of referring to the function, or do we?
+;;What about =def= and =let=?
+(def add-42 (fn [x] (+ x 42)))
+;;nil
+(add-42 2)
+;;44
+;;Similarly...
+(let [add (fn [x] (+ x 42))]
+  (add 2))
+;;44
+;;Note the difference....add-42 exists in the larger
+;;scope of the namespace, where add exists in the lexical
+;;scope of the let form, hence, we don't have a reference
+;;to add once the let form is evaluated.
+
+;;defn
+;;====
+;;Defining named functions is so commonplace, that clojure provides
+;;a nice shorthand for it:
+;;(defn name [& args] body)
+(defn add-2 [x] (+ x 2))
+;;defn actually has more options, like the
+;;ability to add documentation strings....
+(defn add-2  "Add 2 to any number!"
+  [x]
+  (+ x 2))
+;;(doc add-2)
+;; -------------------------
+;; user/add-2
+;; ([x])
+;;   Add 2 to any number!
+
+
+
+
+
 
 
 
