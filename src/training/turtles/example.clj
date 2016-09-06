@@ -77,3 +77,7 @@
 ;;the point [-100 -100], with an identical triangle
 ;;outside of it.  Try to use the preceding functions
 ;;to transform the points that describe the triangle.
+
+;;Since our turtle knows how to follow points,
+;;trying reading points from the
+;;file "points.txt" and trace the result.
