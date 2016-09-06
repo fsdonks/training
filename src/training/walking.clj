@@ -3,6 +3,26 @@
 ;;plethora of built-in data structures and
 ;;libraries for working with them.
 (ns training.walking)
+;;Common Mathematical Fucntions
+;;=============================
+(+ 2 3) ;5
+(* 2 3) ;6 
+(/ 2.0 3.0) ;0.6666666666666666
+(/ 2 3) ;2/3 
+(Math/pow 2 3); 8.0
+(Math/sin Math/PI) 
+;1.2246467991473532E-16
+(Math/cos Math/PI) ;-1.0 
+;;compute remainder using mod
+(mod  10 3) ;1 
+;;or use quot/rem 
+(quot 10 3) ;3  
+(rem  10 3)  ;1 
+(defn divides-by? [x n]
+ (zero? (rem x n)))
+(divides-by? 10 2) ;true 
+(divides-by? 10 3) ;false
+
 ;;Sequences
 ;;=========
 ;;Almost every clojure datastructure that serves as a

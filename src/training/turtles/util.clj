@@ -234,6 +234,12 @@
              update :trinity
              #(merge % {:x x :y y}))))
 
+(defn look-at [coordinate]
+  (-> (compute-move coordinate)
+      (assoc :distance 0)
+      (move->command )
+      (do-command )))
+     
 (defn interpolate-path [points stepsize]
   (->> points
        (partition 2 1)
