@@ -3,7 +3,7 @@
 ;;plethora of built-in data structures and
 ;;libraries for working with them.
 (ns training.walking)
-;;Common Mathematical Fucntions
+;;Common Mathematical Functions
 ;;=============================
 (+ 2 3) ;5
 (* 2 3) ;6 
