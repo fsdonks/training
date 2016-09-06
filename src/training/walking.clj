@@ -292,6 +292,97 @@ ys ;(2 3)
 (into [] (map inc) (range 2)) ;[1 2]
 (into [:z]  {:a 2 :b 3}) ;[:z [:a 2] [:b 3]]
 
-** IO (Input/Output)
-** Practical Example: Turtles
-** Practical Example: Project Euler
+;;IO (Input/Output)
+;;=================
+;; IO in clojure parlance typically refers 
+;; reading (input) or writing (output) data to
+;; a "stream".
+;; - typical streams include files, network sockets
+;; - There are two defined streams: 
+;;   - =*in*=  the stream the REPL's process draws from
+;;   - =*out*= the stream the REPL prints to
+;;   - notice the asteriks around *in* and *out*
+;;     - naming convention (earmuffs) to indicate that the Vars are 
+;;       "dynamically scoped"
+;;     - more to come...
+;; Clojure provides some useful functions for reading and 
+;; writing files.
+;; - =spit=, =slurp=, =line-seq=
+;;Simple File Operations
+;;======================
+;;=spit= and =slurp= are sufficient for quick and 
+;;dirty file operations
+;;use spit to spit a string to a file.
+(spit "output.clj" (str "Howdy!"))
+;;use slurp to return the contents of a file 
+;;as a string 
+(println (slurp "output.clj"))           
+;;Simple Tab-Delimited Files 
+;;==========================
+;;spit structured data to a tab-delimited file.
+(let [tabify #(clojure.string/join "\t" %)]
+   (->> (concat [(tabify ["X" "Y"])]
+        (->> (range 10)
+             (map (fn [idx] [idx (rand)]))
+             (map tabify)))
+       (clojure.string/join \newline)
+       (spit "outlines.txt")))
+;;read the data back in....
+(let [untabify #(clojure.string/split % #"\t")]
+   (->> (slurp "outlines.txt")
+        (clojure.string/split-lines)
+        (map untabify)
+        (map #(into [] (map read-string) %))))
+;;Lazy Tab-Delimited Files
+;;========================
+;;Find the first entry with a y-value > 0.5
+;;- without reading in the entire file.
+(with-open [rdr (clojure.java.io/reader 
+                   "outlines.txt")]
+  (let [untabify #(clojure.string/split % #"\t")]
+     (->> (line-seq rdr)
+          (map untabify)
+          (map #(into [] (map read-string) %))
+          (drop 1) ;ignore headers 
+          (filter (fn [[x y]] 
+                  (> y 0.5)))
+          (first))))       
+;;Printing Clojure Data to files
+;;===============================
+;;We can =read= and =print= clojure 
+;;data
+;;- It stands to reason we should be able to change
+;;  the targets
+;;- =read= and =print= to files?
+;;- naive method for "saving" or "serializing" data
+
+;;save 
+(->> (with-out-str (print {:a 2}))
+     (spit "hash-map.clj"))
+;;recover 
+(->> (slurp "hash-map.clj")
+     (clojure.edn/read-string))
+;;{:a 2}
+
+;;IO In Practice
+;;==============
+;;The preceding examples are great for small things
+;;- for varying definitions of "small"
+;;In practice, we may choose to offload these types of 
+;;IO routines to special-purpose libraries.
+;;- Typically optimized for size and space
+;;- May offer compression, encryption, other conveniences.
+;;Still, we can get a lot of mileage with our pre-defined 
+;;IO
+
+;;Practical Example: Turtles Redux
+;;================================
+;;We'll revisit the turtles project in training/turtles/example.clj
+;;- This time, we have some additional commands
+;;  - (trace-path xys),  (look-at [x y]), ...
+;;  - Instead of using commands, the turtle now can interpret 
+;;    sequences of instructions, or points to follow.
+;;  - Use the sequence functions to have the turtle perform 
+;;    more complex behavior.
+;;  - Think in terms of sequences of points, and operations you 
+;;    can perform on them.
