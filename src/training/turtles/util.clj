@@ -174,7 +174,7 @@
 
 ;;commands are now data...
 ;;we can script the behavior of our turtles.
-(defn random-walk [& {:keys [dist] :or {dist 10}}]
+(defn simple-random-walk [& {:keys [dist] :or {dist 10}}]
   (->> (fn [] (random-move dist))
        (repeatedly)
        (map compute-move)))
