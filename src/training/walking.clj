@@ -288,7 +288,7 @@ ys ;(2 3)
 (get-in m [:a :b]) ;1
 (vec (range 2)) ; [0 1]
 (vec #{:a :b})  ; [:b :a]
-(into [] #{:a :b}; [:b :a]
+(into [] #{:a :b}); [:b :a]
 (into [] (map inc) (range 2)) ;[1 2]
 (into [:z]  {:a 2 :b 3}) ;[:z [:a 2] [:b 3]]
 
@@ -315,8 +315,8 @@ ys ;(2 3)
 ;;use spit to spit a string to a file.
 (spit "output.clj" (str "Howdy!"))
 ;;use slurp to return the contents of a file 
-;;as a string 
-(println (slurp "output.clj"))           
+;;as a string
+(println (slurp "output.clj"))
 ;;Simple Tab-Delimited Files 
 ;;==========================
 ;;spit structured data to a tab-delimited file.
