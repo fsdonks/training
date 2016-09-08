@@ -48,16 +48,16 @@
         ld (-  cd dir)]
     (left ld)))
 
-(defn degrees [rads] (* rads (/ 180.0  Math/PI )))
+(defn degrees [rads] (* rads (/ 180.0  Math/PI)))
 (defn rads    [degs] (* degs (/ Math/PI 180.0)))
 
 (defn slope->direction [dx dy]  
   (cond (and (not (fzero? dx)) (not (fzero? dy)))
-          (degrees (Math/atan (double (/ dx dy))))
-          (not (fzero? dx))
-          (if (pos? dx) 0
-               180)
-          :else
+        (degrees (Math/atan (double (/ dx dy))))
+        (not (fzero? dx))
+        (if (pos? dx) 0
+             180)
+        :else
           (if (pos? dy) 90
               270)))
 
@@ -69,7 +69,7 @@
    (let [cx (Math/cos theta)
          sx (Math/sin theta)]
      [(clamp (+ (* cx  x)   (* (- sx) y)))
-      (clamp (+ (* sx  x)  (* cx y )))]))
+      (clamp (+ (* sx  x)  (* cx y)))]))
   ([theta v] (rotate-xy theta (first v) (second v))))
 
 (defn unrotate-xy [theta x y]
@@ -149,8 +149,8 @@
   ([theta basis v]
    (let [dir       (v- basis v)
          distance  (v-norm dir)
-         direction (signed-vector-degrees (normal-vec theta) dir)
-         ]
+         direction (signed-vector-degrees (normal-vec theta) dir)]
+         
      {:direction   direction
       :distance   distance}))
   ([v]
@@ -164,8 +164,8 @@
         angle   (case dir
                   :move-left direction
                   (- direction))]
-  {:move-forward   distance
-   dir angle}))
+   {:move-forward   distance
+    dir angle}))
 
 (defn random-move [dist]
   (let [hw (/ dist 2.0)]
@@ -197,10 +197,10 @@
 
 (defn interpolate
   ([from to stepsize dist]  
-    (if (> stepsize dist) ;;we can arrive at to.
-      [to to (- stepsize dist) 0] ;;return the new point, plus residual steps.
-      (let [nxt (v+ from [stepsize stepsize])]
-        [nxt to stepsize (- dist stepsize)])))
+   (if (> stepsize dist) ;;we can arrive at to.
+     [to to (- stepsize dist) 0] ;;return the new point, plus residual steps.
+     (let [nxt (v+ from [stepsize stepsize])]
+       [nxt to stepsize (- dist stepsize)])))
   ([from to stepsize]
    (interpolate from to (v-norm (v- from to)))))
 
@@ -211,18 +211,18 @@
         [dx dy] dir
         dx (/ dx dist)
         dy (/ dy dist)
-        step  [(* dx stepsize) (* dy stepsize)]
-        ]
+        step  [(* dx stepsize) (* dy stepsize)]]
+        
     (if (zero? (rem steps 1.0))
-      (take (inc steps )
+      (take (inc steps)
             (iterate (fn [current]
                        (v+ current step)) from))
       ;;uneven steps.
       ;;where does that leave us?
       (let [basic-steps (quot steps 1)
             partial-step   (rem steps 1) ;;the last bit.
-            residual      (* (- 1.0 partial-step) stepsize)
-            ]
+            residual      (* (- 1.0 partial-step) stepsize)]
+            
         (concat 
          (take steps (iterate (fn [current]
                                 (v+ current step)) from))
@@ -237,8 +237,8 @@
 (defn look-at [coordinate]
   (-> (compute-move coordinate)
       (assoc :distance 0)
-      (move->command )
-      (do-command )))
+      (move->command)
+      (do-command)))
      
 (defn interpolate-path [points stepsize]
   (->> points
@@ -255,7 +255,7 @@
              (reset! init p)
              (shift (first p) (second p)))
            (do-move p)
-           (when delay (Thread/sleep delay ))))))
+           (when delay (Thread/sleep delay))))))
 
 (defn ->triangle [size]
   [[0 0]
@@ -269,13 +269,13 @@
 (defn ->follow [points & {:keys [delay] :or {delay 16}}]
   (doseq [x points]
     (do (when delay (Thread/sleep delay))
-        (shift (first x) (second x)))
-  ))
+        (shift (first x) (second x)))))
+  
 
 (defn cos-samples []
   (->> (range 0.0 1.0 0.01)
        (map-indexed (fn [x y]
                       [(* x 200)
-                       (* y 10)]))
-       ))
+                       (* y 10)]))))
+       
                        

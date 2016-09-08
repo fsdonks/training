@@ -260,7 +260,9 @@ nil
 ;;We'll get into trouble because clojure will NOT interpret the
 ;;thing we're evaluating as data.....this requires us to give meaning
 ;;to the symbol in order for Clojure to evaluate it.
-x
+(comment
+  x ;try it
+)
 ;;Clojure prints an error if we try to evaluate an unquoted symbol:
 
 ;;=CompilerException java.lang.RuntimeException:
@@ -304,7 +306,7 @@ x
 ;;quote them to treat them as data.:
 '(this is a quoted list that will not be evaluated)
 ;;We can put anything inside the list, including other lists:
-'(this list contains (another list) )
+'(this list contains (another list))
 '(1 first 2 second 3 third)
 '("Lists" :can 'contain :different "types" (:like-numbers 0 1 2 3 4 5 6 7))
 
@@ -337,8 +339,8 @@ x
 ;;What happens if we insert an arbitrary symbol into the beginning
 ;;of the list?
 (comment  
-  (f 2 3)
-)
+  (f 2 3))
+
 
 ;;We get an error because f is not defined...
 ;;CompilerException java.lang.RuntimeException:
@@ -676,11 +678,11 @@ v2
 ;;   - Example of destructuring, more on this later.
 (defn variadic 
   ([x] 
-     (println (str "you called me with 1 arg, " x)))
+   (println (str "you called me with 1 arg, " x)))
   ([x y] 
-     (println (str "you called me with 2 args: " [x y])))
+   (println (str "you called me with 2 args: " [x y])))
   ([x y & more] 
-     (println (str "you called me with >2 args: " (into [x y] more)))))
+   (println (str "you called me with >2 args: " (into [x y] more)))))
 (variadic 1) ;=> you called me with 1 arg: 1
 (variadic 1 2) ;=> you called me with 2 args: [1 2]
 (variadic 1 2 3 4 5 6) ;=> you called me with >2 args: [1 2 3 4]
@@ -769,7 +771,7 @@ v2
 (defn between? [x lower upper]
   (if (and (> x lower)
            (< x upper))
-        true
+      true
         false))
 
 ;;Clojure has equality operators built-in, so
@@ -892,20 +894,20 @@ x
 ;;the REPL uses to read input and coerce it into clojure expressions.
 ;;=read= lets us collect a line of input from the user:
 (comment 
-  (read) ;try it out
- )
+  (read)) ;try it out
+ 
 ;;=println= evaluates the expression, and prints the result with a new line.
 (println (+ 2 3))
 ;Build your own repl...
 (defn repl [n] 
   (loop [remaining n]
     (if (zero? remaining) :done  
-    (do (println (eval (read)))
-        (recur (dec remaining))))))
+     (do (println (eval (read)))
+         (recur (dec remaining))))))
 
 (comment  ;try it out...
-  (repl 2)
-)
+  (repl 2))
+
 
 ;;Practical Exercise: Guess the Number
 ;;====================================
@@ -934,7 +936,7 @@ x
    the binary search."
   [lower upper]
   (let [half-length (quot (- upper lower)  2) 
-        guess       (+ lower half-length )]
+        guess       (+ lower half-length)]
     (case (read-yes-no  (str "is your number " guess " ?"))
       :yes  (println "Thanks for playing!")
       :no   (case (read-yes-no (str "Is your number less than? " guess))
@@ -961,7 +963,7 @@ x
 (defn play!
   "Plays a single game of pick-the-number.  User should 
    select a number from 0 to 100"
-  [] (pick-number-recursive 0 100))
+  [] (pick-number 0 100))
                                   
 ;;Practical Example: Turtles
 ;;Open open the file in training/turtles/example
