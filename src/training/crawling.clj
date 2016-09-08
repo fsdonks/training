@@ -1,7 +1,7 @@
 ;;A simple exposition of how to express
 ;;things in clojure.
 (ns training.crawling
-  (:use 'clojure.repl))
+  (:use clojure.repl))
 ;;We'll approach clojure from the view of
 ;;linguistics, rather than other approaches.
 ;;While there will be plenty of discourses
@@ -16,7 +16,7 @@
 ;;in clojure, but the outward simplicity belies
 ;;the expressive depth clojure provides.  In other
 ;;words, clojure grows with you....baby steps are
-;;easy and undaunting, but you - like many others
+;;easy and undemanding, but you - like many others
 ;;- may be surprised at the expressive power that
 ;;such a relatively "simple" language provides.
 
@@ -114,7 +114,7 @@
 ;;     5 words.
 ;;Your brain is acting just like a REPL, but
 ;;for the English language.  It Reads the input, Evaluates the
-;;sentence, teasing out the structure and meanin, and does something
+;;sentence, teasing out the structure and meaning, and does something
 ;;with the result.  If you spoke the sentence out loud, we could view
 ;;that as analogous to Printing the result.
 
@@ -194,11 +194,11 @@
 ;;integers:
 
 42/5
-33/2
+
 
 ;;Booleans
 ;;========
-;;Clojure understands primtive notions for true and false, also known
+;;Clojure understands primitive notions for true and false, also known
 ;;as Boolean values - named after George Boole.
 true
 false
@@ -262,9 +262,11 @@ nil
 ;;to the symbol in order for Clojure to evaluate it.
 x
 ;;Clojure prints an error if we try to evaluate an unquoted symbol:
-CompilerException java.lang.RuntimeException:
-Unable to resolve symbol: x in this context,
-compiling:(C:\Users\tspoon\AppData\Local\Temp\form-init8366984737339229996.clj:1:5500)
+
+;;=CompilerException java.lang.RuntimeException:
+;;Unable to resolve symbol: x in this context,
+;;compiling:(C:\Users\tspoon\AppData\Local\Temp\form-init8366984737339229996.clj:1:5500)=
+
 ;;The error tells us what the problem is (x is undefined in this context), and
 ;;where is occurred.
 
@@ -274,7 +276,7 @@ compiling:(C:\Users\tspoon\AppData\Local\Temp\form-init8366984737339229996.clj:1
 ;;Complex Expressions
 ;;===================
 ;;In the original English example, we used a sentence to gain familiarity
-;;with expressing a complicated concept from primtive concepts.
+;;with expressing a complicated concept from primitive concepts.
 ;;Letters formed words, words formed a phrase, and a phrase ending with a
 ;;period formed a sentence.  In each of the preceding examples, we built
 ;;something complex out of something primitive.
@@ -283,7 +285,7 @@ compiling:(C:\Users\tspoon\AppData\Local\Temp\form-init8366984737339229996.clj:1
 ;;Words => Phrase
 ;;Phrases + \. => Sentence
 
-;;Interestingly enough, we were able to decompose a complex setence into
+;;Interestingly enough, we were able to decompose a complex sentence into
 ;;its component pieces via the same rules:
 
 ;;Sentence => Phrases + \.
@@ -291,7 +293,7 @@ compiling:(C:\Users\tspoon\AppData\Local\Temp\form-init8366984737339229996.clj:1
 ;;Word => Letters
 
 ;;In this case, letters are the most primitive elements of a sentence.
-;;Since we have defined Clojure primitives, are there analagous ways to
+;;Since we have defined Clojure primitives, are there analogous ways to
 ;;compose them into things like phrases, and sentences?
 
 ;;Lists
@@ -334,7 +336,10 @@ compiling:(C:\Users\tspoon\AppData\Local\Temp\form-init8366984737339229996.clj:1
 
 ;;What happens if we insert an arbitrary symbol into the beginning
 ;;of the list?
-(f 2 3)
+(comment  
+  (f 2 3)
+)
+
 ;;We get an error because f is not defined...
 ;;CompilerException java.lang.RuntimeException:
 ;;Unable to resolve symbol: f in this context,
@@ -394,10 +399,10 @@ x
 ;;unfamiliar symbols you may encounter.
 
 ;;=doc= is provided in the clojure.repl
-;;namespace, which has already beeen
+;;namespace, which has already been
 ;;referenced for you.  If you ever
 ;;find that the =doc= function
-;;doesnt' work, tell the REPL
+;;doesn't' work, tell the REPL
 (use 'clojure.repl)
 ;;to bring it into scope.
 
@@ -458,7 +463,7 @@ x
 ;;which resides in the training.crawling namespace.
 
 ;;From this point forward, when we evaluate bound symbols,
-;;that is Vars, the resulting evaluationg will be the
+;;that is Vars, the resulting evaluation will be the
 ;;value passed in during def.
 
 (def person "Tom")
@@ -472,7 +477,7 @@ x
 training.crawling/person
 ;;evaluates to "Tom" 
 
-;;Clojure has a pred-defined var called =list=
+;;Clojure has a pre-defined var called =list=
 ;;the allows us to construct lists.
 (def the-list (list person color))
 ;;When the REPL evaluated the preceding expression,
@@ -531,7 +536,7 @@ v2
 
 ;;Vectors are idiomatic in clojure, since they specifically
 ;;denote data, and they have some extremely useful performance
-;;characteristics.  From a lingustic perspective, vectors
+;;characteristics.  From a linguistic perspective, vectors
 ;;give us a visual cue that we're working with a data structure,
 ;;which, unlike a like list, will not be interpreted as a
 ;;form to be evaluated.
@@ -585,7 +590,7 @@ v2
     [city state]))
 ;;["San Antonio" "Texas"]
 
-;;Interstingly, we can bind existing Var definitions, and
+;;Interestingly, we can bind existing Var definitions, and
 ;;temporarily override, or =shadow= them inside of a let:
 (let [state "Texas"]
   (let [state "Virginia"]
@@ -620,7 +625,7 @@ v2
 ;;that adds 42 to its input.
 (fn [x] (+ x 42))
 ;;#object[user$eval7721$fn__7722 0x7152a114 "user$eval7721$fn__7722@7152a114"]
-;;The REPL gives us back a wierd result if we send it a (fn ....)
+;;The REPL gives us back a weird result if we send it a (fn ....)
 ;;form, but it looks like some kind of data with garbage in the name.
 ;;This is clojure's way of telling us that we have gotten back an
 ;;object, in this case, the function we defined.
@@ -671,12 +676,12 @@ v2
 ;;   - Example of destructuring, more on this later.
 (defn variadic 
   ([x] 
-     (println (str "you called me with one arg, " x)))
+     (println (str "you called me with 1 arg, " x)))
   ([x y] 
-     (println (str "you called me with two args: " [x y])))
+     (println (str "you called me with 2 args: " [x y])))
   ([x y & more] 
      (println (str "you called me with >2 args: " (into [x y] more)))))
-(variadic 1) ;=> you called me with 1 args: 1
+(variadic 1) ;=> you called me with 1 arg: 1
 (variadic 1 2) ;=> you called me with 2 args: [1 2]
 (variadic 1 2 3 4 5 6) ;=> you called me with >2 args: [1 2 3 4]
 
@@ -689,8 +694,8 @@ v2
 ;; - Define complex functions by composing simple functions.
 (defn square [x] (* x x))
 (defn distance [[x1 y1] [x2 y2]] 
- (Math/sqrt (square (- x2 x1)) 
-            (square (- y2 y1))))
+ (Math/sqrt (+ (square (- x2 x1)) 
+               (square (- y2 y1)))))
 (defn normal [[x y]] 
  (let [d (distance [0 0] [x y])]
    [(/ x d) (/ y d)]))
@@ -711,7 +716,7 @@ v2
 
 ;;Logical operations via =and=,=or=, =not=
 ;;========================================
-;;Logical operations are "short-circuting", which
+;;Logical operations are "short-circuiting", which
 ;;means that the result will return as soon as
 ;;any sufficient criteria is met, without evaluating
 ;;the rest.
@@ -759,7 +764,7 @@ v2
 (println
  (if nil  "it was true" "it was false"))
 
-;;We can define a fucntion that determines if
+;;We can define a function that determines if
 ;;a number lies between an upper and a lower bound:
 (defn between? [x lower upper]
   (if (and (> x lower)
@@ -767,7 +772,7 @@ v2
         true
         false))
 
-;;Clojure has equality operators builtin, so
+;;Clojure has equality operators built-in, so
 ;;you also get <= , >=, = , and more.
 
 ;;We can equivalently define between? without
@@ -781,7 +786,7 @@ v2
 ;;we never get to the false branch:
 (if (between? 0 20 10)
     (println "all-clear!")
-    (println "launch the missles!"))
+    (println "launch the missiles!"))
 
 ;;If we have nested conditions, it's
 ;;easier to use =cond=
@@ -830,14 +835,15 @@ v2
       (recur (inc idx))))
 
 ;;Find the 10th odd number after 0
-(loop [idx 0
-       acc 0]
-  (if (and (odd? idx) (= idx 10)) 
-      acc ;return the number
+(loop [idx   0
+       n     0
+       acc   0]
+  (if (= n 10)    acc ;return the number     
       (recur (inc idx)  
-             (if (odd? idx) 
-                  idx  
-                  acc))))
+             (if (odd? idx) (inc n) n)
+             (if (odd? idx) idx acc))))
+;;19
+
 ;;=do= things
 ;;===========
 ;;The =do= form allows us to
@@ -885,7 +891,9 @@ x
 ;;Clojure provides full access to the same functionality that
 ;;the REPL uses to read input and coerce it into clojure expressions.
 ;;=read= lets us collect a line of input from the user:
-(read)
+(comment 
+  (read) ;try it out
+ )
 ;;=println= evaluates the expression, and prints the result with a new line.
 (println (+ 2 3))
 ;Build your own repl...
@@ -894,7 +902,10 @@ x
     (if (zero? remaining) :done  
     (do (println (eval (read)))
         (recur (dec remaining))))))
-(repl 2)
+
+(comment  ;try it out...
+  (repl 2)
+)
 
 ;;Practical Exercise: Guess the Number
 ;;====================================
@@ -913,18 +924,17 @@ x
   (case  (keyword (read))
     :y :yes
     :n :no
-    (throw (Exception.  (str "bad-input!")))))              
+    (throw (Exception.  (str "bad-input!")))))
 
-
-(defn pick-number-recursive
+(defn pick-number
   "Given a lower and upper bound, repeatedly tries to 
    guess the number using binary search.  Recursively 
    calls itself, polling the user for correctness 
    each time, and letting the user's feedback guide 
    the binary search."
   [lower upper]
-  (let [distance (quot (- upper lower)  2) 
-        guess    (+ lower distance)]
+  (let [half-length (quot (- upper lower)  2) 
+        guess       (+ lower half-length )]
     (case (read-yes-no  (str "is your number " guess " ?"))
       :yes  (println "Thanks for playing!")
       :no   (case (read-yes-no (str "Is your number less than? " guess))
@@ -947,7 +957,6 @@ x
         :no   (case (read-yes-no (str "Is your number less than? " guess))
                 :yes  (recur lower (dec guess))
                 (recur  (inc guess) upper))))))
-
 
 (defn play!
   "Plays a single game of pick-the-number.  User should 
