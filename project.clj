@@ -7,4 +7,5 @@
                  [spork "0.1.9.7-SNAPSHOT"]
                  [piccolotest  "0.1.0-SNAPSHOT"]
                  [marathon "4.0.8-SNAPSHOT"]
+                 [incanter "1.5.6"] ;should be 1.5.7 but meh
                  [quil       "2.2.6"]])
