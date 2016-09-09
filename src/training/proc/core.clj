@@ -13,7 +13,7 @@
             [incanter.stats]
           ;  [proc.patches :as patches]
           ;  [proc.schemas :as schemas]
-            [proc.stacked :as stacked]
+            [training.proc.stacked :as stacked]
           ;  [spork.util.temporal :as temp]
           ;  [spork.sketch :as sketch]
             ))
